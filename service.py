@@ -20,8 +20,8 @@ class KnowledgeBaseService(object):
                                                     'request': False}
                 elif line.startswith('R'):
                     situation, production = line.strip().split('->')
-                    self.rules.append({'situation': situation[2:],
-                                       'production': production})
+                    self.rules.append({'situation': situation[2:].strip(),
+                                       'production': production.strip()})
 
     def save(self, filepath=None):
         pass
@@ -29,3 +29,12 @@ class KnowledgeBaseService(object):
     def add_rule(self, rule):
         if rule:
             self.rules.append(rule)
+
+    def delete_rule(self, rule):
+        if rule:
+            try:
+                print(f'try to delete {rule}')
+                self.rules.remove(rule)
+            except ValueError:
+                print(f'keeeek, obloooom {rule}')
+                return

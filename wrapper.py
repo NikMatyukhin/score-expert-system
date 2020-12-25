@@ -1,7 +1,7 @@
 from PySide2 import QtCore, QtWidgets
 
 from ui_wrapper import Ui_MainWindow
-from loader import KnowledgeBaseService
+from service import KnowledgeBaseService
 from rules import RulesDialog
 from facts import FactsDialog
 
@@ -26,7 +26,6 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
 
     def load_base(self):
         filepath = QtWidgets.QFileDialog.getOpenFileName(self)[0]
-        print(filepath)
         self.k_base = KnowledgeBaseService(filepath)
         self.k_base.load()
 
@@ -47,7 +46,9 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
 
     def open_rules_dialog(self):
         window = RulesDialog()
+
         window.ruleAdded.connect(self.k_base.add_rule)
+        window.ruleDeleted.connect(self.k_base.delete_rule)
 
         window.fill_table(self.k_base.rules)
         window.fill_combobox(self.k_base.domains)
