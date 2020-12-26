@@ -29,19 +29,25 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
         self.k_base = KnowledgeBaseService(filepath)
         self.k_base.load()
 
-        domains_number = len(self.k_base.domains)
+        facts_number = len(self.k_base.facts)
 
-        for domain in self.k_base.domains:
-            if self.k_base.domains[domain]['request']:
+        for fact in self.k_base.facts:
+            if self.k_base.facts[fact]['request']:
                 self.ui.tableWidget.insertRow(0)
-                item_domain = QtWidgets.QTableWidgetItem(domain)
-                self.ui.tableWidget.setItem(0, 0, item_domain)
+                item_fact = QtWidgets.QTableWidgetItem(fact)
+                self.ui.tableWidget.setItem(0, 0, item_fact)
 
     def save_base(self):
         filepath = QtWidgets.QFileDialog.getSaveFileName(self)[0]
 
     def open_facts_dialog(self):
         window = FactsDialog()
+
+        window.factAdded.connect(self.k_base.add_fact)
+        window.factDeleted.connect(self.k_base.delete_fact)
+
+        window.fill_tree(self.k_base.facts)
+
         window.exec_()
 
     def open_rules_dialog(self):
@@ -51,6 +57,6 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
         window.ruleDeleted.connect(self.k_base.delete_rule)
 
         window.fill_table(self.k_base.rules)
-        window.fill_combobox(self.k_base.domains)
+        window.fill_combobox(self.k_base.facts)
 
         window.exec_()

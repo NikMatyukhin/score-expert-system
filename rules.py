@@ -16,7 +16,7 @@ class RulesDialog(QtWidgets.QDialog):
         self.setFixedSize(700, 565)
         self.setWindowTitle("Работа с правилами")
 
-        self.ui.comboBox.currentTextChanged.connect(self.domain_changed)
+        self.ui.comboBox.currentTextChanged.connect(self.fact_changed)
         self.ui.toolButton_2.clicked.connect(self.clear_form)
         self.ui.toolButton.clicked.connect(self.add_rule)
         self.customContextMenuRequested.connect(self.show_context_menu)
@@ -35,18 +35,18 @@ class RulesDialog(QtWidgets.QDialog):
         self.ui.tableWidget.setItem(0, 0, item_situation)
         self.ui.tableWidget.setItem(0, 1, item_production)
 
-    def fill_combobox(self, domains: dict):
+    def fill_combobox(self, facts: dict):
         self.ui.comboBox.clear()
 
-        if domains:
-            self.domains = domains
-            self.ui.comboBox.addItems(domains.keys())
+        if facts:
+            self.facts = facts
+            self.ui.comboBox.addItems(facts.keys())
 
-    def domain_changed(self, text):
+    def fact_changed(self, text):
         self.ui.comboBox_2.clear()
 
         if text:
-            self.ui.comboBox_2.addItems(self.domains[text]['mean'])
+            self.ui.comboBox_2.addItems(self.facts[text]['mean'])
 
     def clear_form(self):
         self.ui.lineEdit.clear()
@@ -64,9 +64,9 @@ class RulesDialog(QtWidgets.QDialog):
         situation = self.ui.lineEdit.text().strip()
 
         if situation:
-            domain = self.ui.comboBox.currentText().strip()
+            fact = self.ui.comboBox.currentText().strip()
             meaning = self.ui.comboBox_2.currentText().strip()
-            production = domain + ' = ' + meaning
+            production = fact + ' = ' + meaning
 
             rule = {
                 'situation': situation,
