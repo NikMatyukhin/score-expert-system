@@ -11,8 +11,9 @@ class RulesDialog(QtWidgets.QDialog):
         super(RulesDialog, self).__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
-        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.facts = {}
 
+        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.setFixedSize(700, 565)
         self.setWindowTitle("Работа с правилами")
 

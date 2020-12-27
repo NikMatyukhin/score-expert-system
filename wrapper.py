@@ -15,7 +15,7 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
         self.setWindowTitle("Отправитель на экзамен")
 
         self.memory = []
-        self.k_base = None
+        self.k_base = KnowledgeBaseService()
 
         self.ui.action_4.triggered.connect(self.open_facts_dialog)
 
@@ -26,10 +26,10 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
 
     def load_base(self):
         filepath = QtWidgets.QFileDialog.getOpenFileName(self)[0]
-        self.k_base = KnowledgeBaseService(filepath)
-        self.k_base.load()
+        self.k_base.load(filepath)
 
-        facts_number = len(self.k_base.facts)
+        self.ui.tableWidget.clear()
+        self.ui.treeWidget.clear()
 
         for fact in self.k_base.facts:
             if self.k_base.facts[fact]['request']:
@@ -38,7 +38,11 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
                 self.ui.tableWidget.setItem(0, 0, item_fact)
 
     def save_base(self):
-        filepath = QtWidgets.QFileDialog.getSaveFileName(self)[0]
+        if self.k_base.filepath:
+            self.k_base.save()
+        else:
+            filepath = QtWidgets.QFileDialog.getSaveFileName(self)[0]
+            self.k_base.save(filepath=filepath)
 
     def open_facts_dialog(self):
         window = FactsDialog()

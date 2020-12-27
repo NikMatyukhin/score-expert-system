@@ -2,12 +2,13 @@ import pprint
 
 
 class KnowledgeBaseService(object):
-    def __init__(self, filepath):
-        self.filepath = filepath
+    def __init__(self):
         self.rules = []
         self.facts = {}
+        self.filepath = None
 
-    def load(self):
+    def load(self, filepath):
+        self.filepath = filepath
         with open(self.filepath, 'r', encoding='utf-8') as file:
             for line in file:
                 if line.startswith('D'):
@@ -24,7 +25,20 @@ class KnowledgeBaseService(object):
                                        'production': production.strip()})
 
     def save(self, filepath=None):
-        pass
+        if filepath:
+            self.filepath = filepath
+
+        with open(self.filepath, 'w', encoding='utf-8') as file:
+            for fact, data in self.facts.items():
+                line = 'D '
+                if data['request']:
+                    line += 'R '
+                line = line + fact + ':' + ','.join(data['mean']) + '\n'
+                file.write(line)
+            for rule in self.rules:
+                situation, production = rule['situation'], rule['production']
+                line = 'R ' + situation + ' -> ' + production + '\n'
+                file.write(line)
 
     def add_rule(self, rule: dict):
         if rule:
