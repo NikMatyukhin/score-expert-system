@@ -122,13 +122,14 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
         return [fact for fact in facts if fact in rule]
 
     def closeEvent(self, event: QtGui.QCloseEvent):
-        yes = QtWidgets.QMessageBox.Yes
-        no = QtWidgets.QMessageBox.No
-        cancel = QtWidgets.QMessageBox.Cancel
-        resBtn = QtWidgets.QMessageBox.question(
-            self, "Отправитель на экзамен", "Сохранить базу перед выходом?",
-            no | yes, yes)
-        if resBtn == yes:
-            self.save_base()
-            event.ignore()
+        if self.k_base.unsaved:
+            yes = QtWidgets.QMessageBox.Yes
+            no = QtWidgets.QMessageBox.No
+            cancel = QtWidgets.QMessageBox.Cancel
+            resBtn = QtWidgets.QMessageBox.question(
+                self, "Отправитель на экзамен", "Сохранить базу перед выходом?",
+                no | yes, yes)
+            if resBtn == yes:
+                self.save_base()
+                event.ignore()
         event.accept()
