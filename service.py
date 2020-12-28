@@ -6,6 +6,7 @@ class KnowledgeBaseService(object):
         self.rules = []
         self.facts = {}
         self.filepath = None
+        self.unsaved = False
 
     def load(self, filepath):
         self.filepath = filepath
@@ -39,10 +40,12 @@ class KnowledgeBaseService(object):
                 situation, production = rule['situation'], rule['production']
                 line = 'R ' + situation + ' -> ' + production + '\n'
                 file.write(line)
+            self.unsaved = False
 
     def add_rule(self, rule: dict):
         if rule:
             self.rules.append(rule)
+            self.unsaved = True
 
     def delete_rule(self, rule: dict):
         if rule:
@@ -50,15 +53,19 @@ class KnowledgeBaseService(object):
                 self.rules.remove(rule)
             except ValueError:
                 return
+            self.unsaved = True
 
     def add_fact(self, fact: dict):
         if fact:
             self.facts.update(fact)
+            self.unsaved = True
 
     def delete_fact(self, fact: str):
         if fact in self.facts:
             del self.facts[fact]
+            self.unsaved = True
 
     def update_meaning(self, fact: str, meanings: list):
         if fact in self.facts and meanings:
             self.facts[fact]['mean'] = meanings
+            self.unsaved = True

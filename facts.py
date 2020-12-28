@@ -54,8 +54,14 @@ class FactsDialog(QtWidgets.QDialog):
     def add_fact(self):
         fact = self.ui.lineEdit.text().strip()
 
+        if not fact:
+            return
+
         window = MeaningsDialog(fact)
-        window.exec_()
+        answer = window.exec_()
+
+        if answer == QtWidgets.QDialog.Rejected:
+            return
 
         meanings = window.get_meanings_list()
         requested = window.get_requested()
