@@ -78,7 +78,8 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
         self.ui.treeWidget.invisibleRootItem().takeChildren()
 
         rules = self.k_base.rules[:]
-        memory = self.given_facts()
+        memory = {x: None for x in self.k_base.facts.keys()}
+        memory.update(self.given_facts())
 
         while (rule := self.accessible_situation(rules, memory)):
             rules.remove(rule)
@@ -127,7 +128,8 @@ class ExpertSystemWrapper(QtWidgets.QMainWindow):
             no = QtWidgets.QMessageBox.No
             cancel = QtWidgets.QMessageBox.Cancel
             resBtn = QtWidgets.QMessageBox.question(
-                self, "Отправитель на экзамен", "Сохранить базу перед выходом?",
+                self, "Отправитель на экзамен",
+                "Сохранить базу перед выходом?",
                 no | yes, yes)
             if resBtn == yes:
                 self.save_base()

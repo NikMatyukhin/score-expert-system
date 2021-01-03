@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(807, 594)
+        MainWindow.resize(804, 594)
         MainWindow.setStyleSheet(u"")
         self.action_2 = QAction(MainWindow)
         self.action_2.setObjectName(u"action_2")
@@ -74,7 +74,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setAlternatingRowColors(True)
         self.tableWidget.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.tableWidget.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(222)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(219)
 
         self.verticalLayout.addWidget(self.tableWidget)
 
@@ -108,6 +108,7 @@ class Ui_MainWindow(object):
         self.treeWidget.setMinimumSize(QSize(310, 530))
         self.treeWidget.setAutoFillBackground(False)
         self.treeWidget.setStyleSheet(u"")
+        self.treeWidget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.treeWidget.setAlternatingRowColors(False)
         self.treeWidget.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.treeWidget.setAutoExpandDelay(1)
@@ -119,7 +120,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 807, 21))
+        self.menubar.setGeometry(QRect(0, 0, 804, 21))
         self.menubar.setStyleSheet(u"")
         self.menu = QMenu(self.menubar)
         self.menu.setObjectName(u"menu")
